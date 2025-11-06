@@ -1,0 +1,24 @@
+<app-dashboard></app-dashboard>
+<div class="weather-container">
+    @if (weatherService.dataSource()) {
+        <div class="city-header text">
+            <h4 class="header">Country: {{ weatherService.city()?.country }}, City: {{ weatherService.city()?.name }}</h4>
+            <h4 class="left-border header">Population {{ weatherService.city()?.population}}</h4>
+            <h4 class="left-border header">Sunrise {{ weatherService.city()?.sunrise}}</h4>
+            <h4 class="left-border header">Sunset {{ weatherService.city()?.sunset}}</h4>
+        </div>
+    }
+    @for (date of weatherService.mapDateToWeatherCard(); track date.date) {
+
+        <div class="weather-dashboard-container">
+            <mat-divider></mat-divider>
+            <h3 class="text">{{ date.date | dayOfWeek }}</h3>
+            <div class="weather-week-container">
+            @for (weather of date.weather; track weather.dt) {
+                <app-weather-card [weatherCard]="weather"></app-weather-card>
+            }
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+    }
+</div>

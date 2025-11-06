@@ -1,0 +1,21 @@
+<div class="weather-card-container">
+    <!-- <div class="tenperature-container"></div> -->
+    <h4 class="text">{{ weatherCard?.dt_txt | date:'HH:mm' }}</h4>
+    <img [src]="'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png'"
+        [alt]="weatherIcon" style="width: 100px; height: 100px;" />
+    <h4 class="text temperature">{{ weatherCard?.main?.temp }}° C</h4>
+    <h4 class="text description">{{ weatherDescription }}</h4>
+    <div class="container">
+        <h4 class="text description">Wind Speed: {{ weatherCard?.wind?.speed }} m/s</h4>
+        <img src="assets\wind-symbols\wind.png" style="width: 20px; height: 20px;">
+    </div>
+    <div class="container">
+        <h4 class="text description">Wind Direction: {{ weatherCard?.wind?.deg }}°</h4>
+        <img src="assets\icons\arrow.svg" style="width: 20px; height: 20px;" 
+        [ngStyle]="{'transform': 'rotate(' + weatherCard?.wind?.deg + 'deg)'}" />
+    </div>
+    <div class="container">
+        <h4 class="text description">Visibility: {{ weatherCard?.visibility }} m</h4>
+        <img src="assets\icons\eye.svg" style="width: 20px; height: 20px;">
+    </div>
+</div>
