@@ -22,19 +22,28 @@ export class WeatherCard{
     return this.weatherCard?.weather?.[0]?.icon ?? '';
   }
 
-  // getTimeOfDay(date: string): TimeOfDay {
-  //   const fixed = date.replace(' ', 'T');
-  //   const dateObj = new Date(fixed);
-  //   const hours = dateObj.getHours();
-  //   return hours >= 6 && hours < 22 ? TimeOfDay.DAY : TimeOfDay.NIGHT;
-  // }
+  getTemperatureFillPercent(temp?: number | null): string {
+    if (temp == null) {
+      return '0%';
+    }
+    // Handle negative temperatures (cold/ice)
+    if (temp < 0) {
+      const clamped = Math.max(-50, Math.min(0, temp));
+      // Convert -50 to 0 range to 0% to 100% (inverse: colder = higher percentage)
+      const percent = Math.round((Math.abs(clamped) / 50) * 100);
+      return percent + '%';
+    }
+    // Handle positive temperatures (hot/orange)
+    const clamped = Math.max(0, Math.min(50, temp));
+    const percent = Math.round((clamped / 50) * 100);
+    return percent + '%';
+  }
 
-  // getTemperature(temperature: number): Temperature {
-  //   return  temperature > 15 && temperature < 25 ? Temperature.WARM :temperature > 25 && temperature < 30 ? Temperature.HOT : temperature > 30 ? Temperature.VERY_HOT : Temperature.COLD;
-  // }
+  isColdTemperature(temp?: number | null): boolean {
+    return temp != null && temp < 0;
+  }
 
-  // getWindSpeed(speed: number): string {
-  //   console.log('speed: ', speed);
-  //   return speed > 0 && speed < 10 ? 'wind_speed_0_10' : speed > 10 && speed < 20 ? 'wind_speed_10_20' : speed > 20 && speed < 30 ? 'wind_speed_20_30' : 'wind_speed_30_plus';
-  // }
+  getTemperature() {
+    return this.weatherCard?.main?.temp?.toFixed(1);
+  }
 }

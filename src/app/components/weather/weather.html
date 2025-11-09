@@ -1,24 +1,44 @@
-<app-dashboard></app-dashboard>
-<div class="weather-container">
-    @if (weatherService.dataSource()) {
-        <div class="city-header text">
-            <h4 class="header">Country: {{ weatherService.city()?.country }}, City: {{ weatherService.city()?.name }}</h4>
-            <h4 class="left-border header">Population {{ weatherService.city()?.population}}</h4>
-            <h4 class="left-border header">Sunrise {{ weatherService.city()?.sunrise}}</h4>
-            <h4 class="left-border header">Sunset {{ weatherService.city()?.sunset}}</h4>
+<div class="weather-wrapper">
+    <div class="weather-dashboard-wrapper">
+        <div class="dashboard-container">
+            <app-dashboard></app-dashboard>
         </div>
-    }
-    @for (date of weatherService.mapDateToWeatherCard(); track date.date) {
-
-        <div class="weather-dashboard-container">
-            <mat-divider></mat-divider>
-            <h3 class="text">{{ date.date | dayOfWeek }}</h3>
-            <div class="weather-week-container">
-            @for (weather of date.weather; track weather.dt) {
-                <app-weather-card [weatherCard]="weather"></app-weather-card>
-            }
+        @if (weatherService.cityCoordinates()) {
+            <div class="map-container">
+                <app-city-map></app-city-map>
             </div>
+        }
+        <div class="weather-container">
+            @if (weatherService.dataSource()) {
+                <div class="city-header text">
+                    <h4 class="header">Country: {{ weatherService.city()?.country }}, City: {{ weatherService.city()?.name }}</h4>
+                    <h4 class="left-border header">Population {{ weatherService.city()?.population | population}}</h4>
+                    <h4 class="left-border header">Sunrise {{ weatherService.city()?.sunrise | sunTime}}</h4>
+                    <h4 class="left-border header">Sunset {{ weatherService.city()?.sunset | sunTime}}</h4>
+                    <h4 class="left-border header">Timezone: {{ weatherService.city()?.timezone | timezoneOffset}}</h4>
+                </div>
+                @for (weatherData of weatherService.mapDateToWeatherCard(); track weatherData.date) {
+    
+                <div class="weather-dashboard-container">
+                    <!-- <mat-divider></mat-divider> -->
+                    <div class="weather-dashboard-header">
+                        <h3 class="text">{{ weatherData.date | dayOfWeek }}</h3>
+                    </div>
+                    <div class="weather-week-container">
+                        @for (weather of weatherData.weather; track weather.dt) {
+                        <app-weather-card [weatherCard]="weather"></app-weather-card>
+                        }
+                    </div>
+                </div>
+                <!-- <mat-divider></mat-divider> -->
+                }
+            }
+            @if (weatherService.weatherSpinner()) {
+                <div class="spinner-border text-primary spinner-center" role="status"></div>
+            }
+            @if (weatherService.weatherStatus() == 'error') {
+                <div class="data-not-found">Data wasn't found</div>
+            }
         </div>
-        <mat-divider></mat-divider>
-    }
+    </div>
 </div>

@@ -2,14 +2,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'sunTime',
-  standalone: true
+  standalone: true,
 })
-export class SunTimePipe implements PipeTransform {
-
-  transform(unixSeconds: number, tzOffsetSeconds: number = 0): string {
-    if (!unixSeconds) return '';
-    const date = new Date((unixSeconds + tzOffsetSeconds) * 1000);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+export class sunTimePipe implements PipeTransform {
+  transform(value: number | null | undefined, locale: string = 'en-IL'): string {
+    if (!value) return '';
+    const date = new Date(value * 1000); // Convert from seconds to ms
+    return date.toLocaleTimeString(locale, {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   }
-
 }

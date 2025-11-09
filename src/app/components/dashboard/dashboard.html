@@ -1,2 +1,28 @@
-<div style="width: 100%; height: 50px; background-color: #a4c9fa; margin-bottom: 10px; border: 1px solid #000;">
+<div class="dashboard-container">
+    <form class="dashboard-form">
+        <mat-form-field appearance="outline">
+            <mat-label>Search city</mat-label>
+            <input #input matInput type="text" placeholder="Search city" [formControl]="search"
+                [matAutocomplete]="auto">
+            <!-- class="input" -->
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCitySelected($event)">
+                @for (city of cities(); track city.city_short_name) {
+                <mat-option [value]="city.city_short_name">{{city.city_short_name}}</mat-option>
+                }
+            </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Select forecast days</mat-label>
+            <mat-select disableRipple [formControl]="selectedForcastDays">
+                @for (day of forecastDays(); track day) {
+                <mat-option [value]="day">{{day}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </form>
+    @if (spinner()) {
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    }
 </div>

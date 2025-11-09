@@ -1,111 +1,173 @@
-// .weather-container {
-//     display: flex;
-//     gap: 10px;
-//     .weather-list-item {
-//         display: flex;
-//         flex-direction: column;
-//         justify-content: space-between;
-//         align-items: center;
-//         gap: 10px;
-//         border: 1px solid #000;
-//         padding: 10px;
-//         border-radius: 10px;
-//         min-width: 200px;
-//         height: auto;
-//         background-color: #ffffff;
-//         background-size: cover;
-//         background-position: center;
-//         background-repeat: no-repeat;
-//     }
-//     .broken_clouds_background {
-//         background-image: url('../../../../public/assets/weather-background/broken_clouds.png');
-//     }
-//     .clear_sky_background {
-//         background-image: url('../../../../public/assets/weather-background/clear_sky.png');
-//     }
-//     .overcast_clouds_background {
-//         background-image: url('../../../../public/assets/weather-background/overcast_clouds.png');
-//     }
-//     .hot_clear_sky_background {
-//         background-image: url('../../../../public/assets/weather-background/hot_clear_sky.png');
-//     }
-//     .night_background {
-//         background-image: url('../../../../public/assets/weather-background/night.png');
-//     }
-//     .rain_background {
-//         background-image: url('../../../../public/assets/weather-background/rain.png');
-//     }
-//     .scattered_clouds_background {
-//         background-image: url('../../../../public/assets/weather-background/scattered_clouds.png');
-//     }
-//     .very_hot_clear_sky_background {
-//         background-image: url('../../../../public/assets/weather-background/very_hot_clear_sky.png');
-//     }
-//     .few_clouds_background {
-//         background-image: url('../../../../public/assets/weather-background/few_clouds.png');
-//     }
-//     .wind_speed_0_10 {
-//         background-image: url('../../../../public/assets/wind-symbols/light_wind.png');
-//         background-size: contain;
-//         background-position: center;
-//         background-repeat: no-repeat;
-//         display: block;
-//     }
-//     .wind_speed_10_20 {
-//         background-image: url('../../../../public/assets/wind-symbols/medium_wind.png');
-//         background-size: contain;
-//         background-position: center;
-//         background-repeat: no-repeat;
-//         display: block;
-//     }
-//     .wind_speed_20_30 {
-//         background-image: url('../../../../public/assets/wind-symbols/high_wind.png');
-//         background-size: contain;
-//         background-position: center;
-//         background-repeat: no-repeat;
-//         display: block;
-//     }
-//     .wind_speed_30_plus {
-//         background-image: url('../../../../public/assets/wind-symbols/very_high_winds.png');
-//         background-size: contain;
-//         background-position: center;
-//         background-repeat: no-repeat;
-//         display: block;
-//     }
-// }
-
 .weather-card-container {
     position: relative;
     box-shadow: 0px 0px 13px 12px #a9a9a9;
-    width: 205px;
+    width: 170px;
+    min-width: 170px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 15px;
     padding-bottom: 10px;
-    background: linear-gradient(102deg, #a2d3ff, rgba(255, 255, 255, 0.5294117647));
+    background: #a2d3ff;
+    overflow: hidden;
+    
+    .temperature-fill {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        pointer-events: none;
+        z-index: 0;
+        &.orange-background {
+            background: linear-gradient(180deg, rgba(255,165,0,0.85), rgba(255,165,0,0.35));
+        }
+        &.ice-background {
+            background: linear-gradient(180deg, rgb(41 167 245 / 85%), rgba(70, 130, 180, 0.35));
+        }
+    }
+    
+    > * {
+        padding: 5px;
+        position: relative;
+        z-index: 1;
+    }
+    
     .temperature {
         font-size: 30px;
         font-weight: bold;
         margin: 0;
         color: #0A2540;
     }
+    .data-not-found {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0;
+        color: #0A2540;
+        text-align: center;
+        padding: 10px;
+    }
+    
+    h5.description {
+        font-size: 12px;
+        font-weight: 500;
+        margin: 0;
+        padding: 2px 5px;
+        text-align: center;
+        line-height: 1.2;
+        max-width: 100%;
+        word-wrap: break-word;
+    }
+    
+    .weather-icon {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+    }
+    
     .container {
         display: flex;
         align-items: center;
         gap: 10px;
         border-radius: 30px;
         background: linear-gradient(306deg, #dcf0fb, #f7f7f7);
-        width: 160px;
+        width: 155px;
         height: 40px;
         margin: 5px;
         padding-left: 15px;
         padding-right: 5px;
+        
         .description {
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 500;
             color: #0A2540;
-            width: 125px;
+            width: 100px;
+        }
+        
+        .small-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+    }
+}
+
+// Tablet and below (765px and below)
+@media (max-width: 765px) {
+    .weather-card-container {
+        width: 150px;
+        min-width: 150px;
+        
+        .weather-icon {
+            width: 90px;
+            height: 90px;
+        }
+        
+        .temperature {
+            font-size: 24px;
+        }
+        
+        h5.description {
+            font-size: 10px;
+            padding: 1px 3px;
+            line-height: 1.1;
+        }
+        
+        .container {
+            width: 135px;
+            height: 35px;
+            
+            .description {
+                font-size: 9px;
+                width: 90px;
+            }
+            
+            .small-icon {
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+}
+
+// Mobile
+@media (max-width: 480px) {
+    .weather-card-container {
+        width: 130px;
+        min-width: 130px;
+        
+        .weather-icon {
+            width: 80px;
+            height: 80px;
+        }
+        
+        .temperature {
+            font-size: 20px;
+        }
+        
+        h5.description {
+            font-size: 9px;
+            padding: 1px 2px;
+            line-height: 1.0;
+        }
+        
+        .container {
+            width: 120px;
+            height: 32px;
+            padding-left: 10px;
+            padding-right: 5px;
+            gap: 8px;
+            
+            .description {
+                font-size: 8px;
+                width: 80px;
+            }
+            
+            .small-icon {
+                width: 16px;
+                height: 16px;
+            }
         }
     }
 }

@@ -1,0 +1,56 @@
+.dashboard-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    .dashboard-form {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.dashboard-form-field {
+    min-width: 200px;
+    flex: 1;
+    max-width: 300px;
+}
+
+// Tablet and below (768px and below) - side by side
+@media (max-width: 768px) {
+    .dashboard-container {
+        .dashboard-form {
+            flex-direction: row;
+            gap: 0.5rem;
+            margin-top: 10px;
+            flex-wrap: nowrap;
+        }
+    }
+    
+    .dashboard-form-field {
+        min-width: unset;
+        flex: 1;
+        max-width: 50%;
+    }
+}
+
+// Small mobile (480px and below) - stack vertically
+@media (max-width: 480px) {
+    .dashboard-container {
+        .dashboard-form {
+            flex-direction: column;
+            margin-top: 5px;
+            gap: 0.5rem;
+        }
+    }
+    
+    .dashboard-form-field {
+        max-width: 100%;
+        width: 100%;
+    }
+}

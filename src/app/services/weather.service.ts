@@ -1,22 +1,43 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
-import { API_KEY, API_URL } from '../weather-config';
-import { City, main, ThreeDayWeatherForecast, ThreeHoursForcast } from '../types/interfaces';
+import { computed, Injectable, signal } from '@angular/core';
+import { API_KEY, API_URL_PREFIX, API_URL_SUFFIX } from '../weather-config';
+import { City, ThreeDayWeatherForecast, ThreeHoursForcast } from '../types/interfaces';
 import { catchError, EMPTY, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WeatherService {
+  selectedCity = signal<string | null>(null);
   city = signal<City | null>(null);
+  cityCoordinates = signal<{ lat: number; lon: number } | null>(null);
   weatherDates = signal<string[]>([]);
-  mapDateToWeatherCard = signal<{ date: string, weather: ThreeHoursForcast[] }[]>([]);
+  weatherSpinner = signal<boolean>(false);
+  weatherStatus = signal<'loading' | 'error' | 'success'>('loading');
+  // Store the original unfiltered data
+  allMapDateToWeatherCard = signal<{ date: string, weather: ThreeHoursForcast[] }[]>([]);
+  // Computed signal that filters based on selectedForcastDays
+  mapDateToWeatherCard = computed(() => {
+    const allData = this.allMapDateToWeatherCard();
+    const days = this.selectedForcastDays();
+    if (days > 0 && allData.length > 0) {
+      return allData.slice(0, days);
+    }
+    return allData;
+  });
   dataSource = signal<ThreeDayWeatherForecast | null>(null);
-  constructor(private http: HttpClient) {}
-  getweather() {
-    this.http.get<ThreeDayWeatherForecast>(`${API_URL}${API_KEY}&units=metric`).pipe(
+  selectedForcastDays = signal<number>(1);
+  constructor(private http: HttpClient) {
+  }
+
+  getweather(city: string) {
+    this.weatherSpinner.set(true);
+    this.weatherStatus.set('loading');
+    this.http.get<ThreeDayWeatherForecast>(`${API_URL_PREFIX}${city}${API_URL_SUFFIX}${API_KEY}`).pipe(
       tap((data: ThreeDayWeatherForecast) => {
         console.log('data: ', data);
+        this.weatherStatus.set('success');
+        this.weatherSpinner.set(false);
         this.dataSource.set(data);
         this.city.set(data.city);
         const dates = Array.from(new Set(data.list.map(item => item.dt_txt.split(' ')[0])));
@@ -26,11 +47,13 @@ export class WeatherService {
             weather: data.list.filter(item => item.dt_txt.split(' ')[0] === date)
           }
         });
-        this.mapDateToWeatherCard.set(mapDateToWeatherCard);
+        this.allMapDateToWeatherCard.set(mapDateToWeatherCard);
         this.weatherDates.set(dates);
       }),
       catchError((err) => {
         console.error('Weather request failed:', err);
+        this.weatherStatus.set('error');
+        this.weatherSpinner.set(false);
         this.dataSource.set(null);
         return EMPTY;
       })
