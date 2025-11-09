@@ -4,7 +4,6 @@
             <mat-label>Search city</mat-label>
             <input #input matInput type="text" placeholder="Search city" [formControl]="search"
                 [matAutocomplete]="auto">
-            <!-- class="input" -->
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCitySelected($event)">
                 @for (city of cities(); track city.city_short_name) {
                 <mat-option [value]="city.city_short_name">{{city.city_short_name}}</mat-option>

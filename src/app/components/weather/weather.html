@@ -20,7 +20,6 @@
                 @for (weatherData of weatherService.mapDateToWeatherCard(); track weatherData.date) {
     
                 <div class="weather-dashboard-container">
-                    <!-- <mat-divider></mat-divider> -->
                     <div class="weather-dashboard-header">
                         <h3 class="text">{{ weatherData.date | dayOfWeek }}</h3>
                     </div>
@@ -30,7 +29,6 @@
                         }
                     </div>
                 </div>
-                <!-- <mat-divider></mat-divider> -->
                 }
             }
             @if (weatherService.weatherSpinner()) {
