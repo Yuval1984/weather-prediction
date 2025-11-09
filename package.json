@@ -5,8 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:gh-pages": "ng build --configuration production --base-href /weather-prediction/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy": "npm run build:gh-pages && npx angular-cli-ghpages --dir=dist/weather-channel/browser"
   },
   "prettier": {
     "printWidth": 100,
