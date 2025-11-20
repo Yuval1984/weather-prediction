@@ -61,7 +61,6 @@ export class Dashboard {
     ).subscribe({
       next: value => {
         this.geolocationApi.searchCity(value).subscribe((data: GeolocationResults[]) => {
-          console.log('data: ', data);
           this.cities.set(data);
           this.spinner.set(false);
         });
@@ -72,7 +71,6 @@ export class Dashboard {
         this.spinner.set(false);
       },
       complete: () => {
-        console.log('final: completed');
         this.spinner.set(false);
       }
     });

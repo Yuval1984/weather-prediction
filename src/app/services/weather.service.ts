@@ -35,7 +35,6 @@ export class WeatherService {
     this.weatherStatus.set('loading');
     this.http.get<ThreeDayWeatherForecast>(`${API_BASE_URL}${FORECAST_ENDPOINT}?city=${encodeURIComponent(city)}`).pipe(
       tap((data: ThreeDayWeatherForecast) => {
-        console.log('data: ', data);
         this.weatherStatus.set('success');
         this.weatherSpinner.set(false);
         this.dataSource.set(data);
