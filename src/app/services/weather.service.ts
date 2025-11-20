@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
-import { API_KEY, API_URL_PREFIX, API_URL_SUFFIX } from '../weather-config';
+import { API_BASE_URL, FORECAST_ENDPOINT } from '../weather-config';
 import { City, ThreeDayWeatherForecast, ThreeHoursForcast } from '../types/interfaces';
 import { catchError, EMPTY, tap } from 'rxjs';
 
@@ -33,7 +33,7 @@ export class WeatherService {
   getweather(city: string) {
     this.weatherSpinner.set(true);
     this.weatherStatus.set('loading');
-    this.http.get<ThreeDayWeatherForecast>(`${API_URL_PREFIX}${city}${API_URL_SUFFIX}${API_KEY}`).pipe(
+    this.http.get<ThreeDayWeatherForecast>(`${API_BASE_URL}${FORECAST_ENDPOINT}?city=${encodeURIComponent(city)}`).pipe(
       tap((data: ThreeDayWeatherForecast) => {
         console.log('data: ', data);
         this.weatherStatus.set('success');

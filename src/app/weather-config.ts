@@ -1,3 +1,2 @@
-export const API_KEY = '5fe237bc545d9c57c19986c237bce360';
-export const API_URL_PREFIX = 'https://api.openweathermap.org/data/2.5/forecast?q=';
-export const API_URL_SUFFIX = '&units=metric&appid=';
+export const API_BASE_URL = 'https://metrics-server-yjqf.onrender.com/v1/weather-channel';
+export const FORECAST_ENDPOINT = '/forecast';

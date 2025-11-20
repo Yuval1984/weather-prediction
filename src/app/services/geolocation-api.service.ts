@@ -8,14 +8,13 @@ import { debounce, map } from 'rxjs';
 })
 export class GeolocationApi {
   cityName = signal<string>('');
-  apiUrlStart = 'https://api.geoapify.com/v1/geocode/autocomplete?text=';
-  API_KEY = 'f552e4f2c0434ff490a99b824c4e4f7f';
+  private readonly API_BASE_URL = 'https://metrics-server-yjqf.onrender.com/v1/weather-channel';
 
   constructor(private http: HttpClient) {
   }
 
   searchCity(cityName: string) {
-    return this.http.get<GeoSearchResponse>(`${this.apiUrlStart}${cityName}&type=city&limit=3&lang=en&format=json&apiKey=${this.API_KEY}`)
+    return this.http.get<GeoSearchResponse>(`${this.API_BASE_URL}/autocomplete?text=${encodeURIComponent(cityName)}`)
       .pipe(
         map((data: GeoSearchResponse) => {
           const citiesOnly = data.results.filter((result: GeoResult) => !!result.city);
