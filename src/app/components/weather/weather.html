@@ -31,6 +31,11 @@
                 </div>
                 }
             }
+            @else {
+                <div class="search-city-container">
+                    <img src="/assets/search_city.png" alt="Search for a city" class="search-city-img">
+                </div>
+            }
             @if (weatherService.weatherSpinner()) {
                 <div class="spinner-border text-primary spinner-center" role="status"></div>
             }

@@ -61,6 +61,22 @@
         flex-wrap: wrap;
         justify-content: center;
     }
+    .search-city-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 300px;
+        padding: 60px;
+        .search-city-img {
+            max-width: 100%;
+            max-height: 400px;
+            width: auto;
+            height: auto;
+            border-radius: 20px;
+            object-fit: contain;
+        }
+    }
     
     .weather-dashboard-container {
         display: flex;
